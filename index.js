@@ -23,6 +23,10 @@ mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
+}).then((res) => {
+  console.debug('DB connected', { res })
+}).catch(err => {
+  console.error( { err } )
 });
 
 app.use("/api", routes);

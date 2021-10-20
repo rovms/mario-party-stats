@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Player = require("../model/player");
+const auth = require("../middleware/auth");
+const jwt = require("jsonwebtoken")
 
 // Retrieve all players
-router.get("/player", async (req, res) => {
+router.get("/player", auth, async (req, res) => {
   try {
     const players = await Player.find();
     return res.status(200).json(players);
@@ -12,38 +14,35 @@ router.get("/player", async (req, res) => {
   }
 });
 
-// Only udpates the text of a player
-router.post("/player/:playerId", async (req, res) => {
-  if (req.body.secret === process.env.SECRET) {
-    try {
-      let player = await Player.findById(req.params.playerId);
-      if (!player) {
-        return res.status(400).send(`Player with id {${req.query.playerId}} not found.`);
-      }
-      player.text = req.body.text;
-      player = await player.save();
-      return res.status(200).json(player);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).send(error);
-    }
-  } else {
-    return res.status(401).send("Wrong secret");
-  }
-});
 
-router.post("/addPoints", async (req, res) => {
+router.post("/player", auth, async (req, res) => {
   try {
-    let ppp;
-    for (ppp of req.body) {
-      const p = await Player.findById(ppp.playerId);
-      p.points.push(ppp.newPoints);
+    let player;
+    for (player of req.body) {
+      const p = await Player.findById(player.id);
+      p.points.push(player.newPoints);
       await p.save();
     }
     return res.status(200).json("Ok");
   } catch (error) {
+    console.error(error);
     return res.status(500).send(error);
   }
+});
+
+router.post("/login", async (req, res) => {
+  if (req.body.password !== process.env.SECRET) {
+    return res.status(401).send('Wrong password.')
+  }
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  if (!ip) {
+    return res.status(401).send('IP could not be read.')
+  }
+  const token = jwt.sign({ip}, process.env.JWT_SECRET, {
+    expiresIn: "6 hours"
+  })
+  console.log(token);
+  return res.status(200).json( { token } );
 });
 
 module.exports = router;
