@@ -1,43 +1,34 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+
 require("dotenv").config();
+
+const innitConnection = require("./db")
 
 const app = express();
 
 const routes = require("./routes");
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json()); //TODO: remove
 
-const dbUrl = process.env.DB_URL;
-
-console.log(dbUrl);
-
-if (!dbUrl) {
-  console.log("DB not configured correctly: ");
+const startServer = function () {
+  app.use("/api", routes);
+  
+  app.use(express.static(__dirname + "/dist/"));
+  
+  app.get("/.*/", (req, res) => {
+    res.sendFile(__dirname + "/dist/index.html");
+  });
+  
+  const port = process.env.PORT || 4000;
+  app.listen(port, () => {
+    console.log(`listening on ${port}`);
+  });
 }
 
-mongoose.connect(dbUrl, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-}).then((res) => {
-  console.debug('DB connected', { res })
-}).catch(err => {
-  console.error( { err } )
+innitConnection(function () {
+  startServer()
 });
 
-app.use("/api", routes);
-
-app.use(express.static(__dirname + "/dist/"));
-
-app.get("/.*/", (req, res) => {
-  res.sendFile(__dirname + "/dist/index.html");
-});
-
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`listening on ${port}`);
-});

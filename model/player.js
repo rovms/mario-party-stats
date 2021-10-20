@@ -1,6 +1,16 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var Schema = mongoose.Schema;
+const Score = {
+  amount: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  date: {
+    type: Date,
+  },
+};
 
 const opts = {
   toJSON: { virtuals: true },
@@ -26,6 +36,10 @@ const PlayerSchema = new Schema(
     },
     points: {
       type: [Number],
+      default: [],
+    },
+    scores: {
+      type: [Score],
       default: [],
     },
   },

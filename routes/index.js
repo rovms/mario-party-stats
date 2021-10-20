@@ -2,7 +2,28 @@ const express = require("express");
 const router = express.Router();
 const Player = require("../model/player");
 const auth = require("../middleware/auth");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const initConnection = require("../db");
+
+//TODO: remove
+router.post("/dev", async (req, res) => {
+  const lastChristmas = new Date(2020, 11, 26, 20, 0, 0, 0);
+  try {
+    const players = await Player.find();
+
+    let player;
+    for (player of players) {
+      for (let point of player.points) {
+        player.scores.push({ amount: point, date: lastChristmas });
+      }
+      await player.save();
+    }
+    return res.status(200).json(players);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error);
+  }
+});
 
 // Retrieve all players
 router.get("/player", auth, async (req, res) => {
@@ -13,7 +34,6 @@ router.get("/player", auth, async (req, res) => {
     return res.status(500).send(error);
   }
 });
-
 
 router.post("/player", auth, async (req, res) => {
   try {
@@ -32,17 +52,17 @@ router.post("/player", auth, async (req, res) => {
 
 router.post("/login", async (req, res) => {
   if (req.body.password !== process.env.SECRET) {
-    return res.status(401).send('Wrong password.')
+    return res.status(401).send("Wrong password.");
   }
-  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   if (!ip) {
-    return res.status(401).send('IP could not be read.')
+    return res.status(401).send("IP could not be read.");
   }
-  const token = jwt.sign({ip}, process.env.JWT_SECRET, {
-    expiresIn: "6 hours"
-  })
+  const token = jwt.sign({ ip }, process.env.JWT_SECRET, {
+    expiresIn: "6 hours",
+  });
   console.log(token);
-  return res.status(200).json( { token } );
+  return res.status(200).json({ token });
 });
 
 module.exports = router;
