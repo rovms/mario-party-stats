@@ -28,10 +28,6 @@ const PlayerSchema = new Schema(
       type: [Number],
       default: [],
     },
-    secret: {
-      type: String,
-      required: true,
-    },
   },
   opts
 );
