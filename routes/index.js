@@ -37,10 +37,11 @@ router.get("/player", auth, async (req, res) => {
 
 router.post("/player", auth, async (req, res) => {
   try {
+    const now = new Date();
     let player;
     for (player of req.body) {
       const p = await Player.findById(player.id);
-      p.points.push(player.newPoints);
+      p.scores.push({amount: player.newPoints, date: now});
       await p.save();
     }
     return res.status(200).json("Ok");
