@@ -54,7 +54,7 @@ const startServer = function () {
   app.use(express.static(__dirname + "/dist/"));
   
   app.get("/.*/", (req, res) => {
-    res.sendFile(__dirname + "/dist/index.html");
+    res.sendFile(__dirname + "/dist/");
   });
   
   const port = process.env.PORT || 4000;
