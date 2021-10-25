@@ -5,7 +5,11 @@ const CONFIG = {
     useUnifiedTopology: true,
     useCreateIndex: true,
 }
-const DB_URL = process.env.DB_URL;
+
+require("dotenv").config()
+
+const DB_URL = process.env.DB_URL_PROD;
+// const DB_URL = process.env.DB_URL;
 
 const initConnection = function(callback) {
     mongoose.connect(DB_URL, CONFIG)

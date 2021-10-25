@@ -6,7 +6,7 @@
     <div class="outer-container">
       <table class="result-table">
         <tr v-for="player in players" :key="player">
-          <td class="row-name">{{ player.name }}</td>
+          <td class="row-name">{{ player.name.toUpperCase() }}</td>
           <td class="row-points" style="padding: 0.3rem">
             <button class="round" type="button" @click="player.newPoints = player.newPoints <= 1 ? 0 : player.newPoints - 1">-</button>
           </td>

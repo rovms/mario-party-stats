@@ -5,26 +5,6 @@ const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const initConnection = require("../db");
 
-//TODO: remove
-router.post("/dev", async (req, res) => {
-  const lastChristmas = new Date(2020, 11, 26, 20, 0, 0, 0);
-  try {
-    const players = await Player.find();
-
-    let player;
-    for (player of players) {
-      for (let point of player.points) {
-        player.scores.push({ amount: point, date: lastChristmas });
-      }
-      await player.save();
-    }
-    return res.status(200).json(players);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send(error);
-  }
-});
-
 // Retrieve all players
 router.get("/player", auth, async (req, res) => {
   try {

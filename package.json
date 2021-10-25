@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/index.js",
     "dev": "nodemon -L --inspect server/index.js",
-    "dev-reset": "nodemon -L --inspect server/index.js resetDB"
+    "dev-reset": "nodemon -L --inspect server/index.js resetDB",
+    "migrate": "node server/scripts/migrateScores.js"
   },
   "author": "",
   "license": "ISC",
