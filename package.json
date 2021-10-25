@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon -L --inspect index.js",
-    "dev-reset": "nodemon -L --inspect index.js resetDB"
+    "start": "node server/index.js",
+    "dev": "nodemon -L --inspect server/index.js",
+    "dev-reset": "nodemon -L --inspect server/index.js resetDB"
   },
   "author": "",
   "license": "ISC",

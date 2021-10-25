@@ -50,11 +50,13 @@ const setupDB = async () => {
 
 const startServer = function () {
   app.use("/api", routes);
-  
-  app.use(express.static(__dirname + "/dist/"));
+
+  const path = __dirname + '/dist/';
+
+  app.use(express.static(path));
   
   app.get("/.*/", (req, res) => {
-    res.sendFile(__dirname + "/dist/");
+    res.sendFile(path + "index.html");
   });
   
   const port = process.env.PORT || 4000;

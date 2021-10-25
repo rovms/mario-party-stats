@@ -1,0 +1,184 @@
+@font-face {
+  font-family: "Mario-Party-Hudson-Font";
+  src: local("Mario-Party-Hudson-Font"), url(../../fonts/Mario-Party-Hudson-Font.ttf) format("truetype");
+}
+
+html,
+body,
+#app {
+  margin: 0px;
+  width: 100vw;
+  min-height: 100vh;
+}
+
+.button {
+  font-family: Mario-Party-Hudson-Font;
+}
+
+#app {
+  font-family: Mario-Party-Hudson-Font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  -webkit-text-stroke: 1px black;
+  display: flex;
+  justify-content: center;
+  background-color: #e6ffff;
+}
+.container {
+  margin-top: 2rem;
+}
+
+.login-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 500%;
+  color: #4ba3c7;
+  flex-grow: 0.2;
+}
+
+.login-password {
+  color: #4ba3c7;
+  font-size: 200%;
+  margin-bottom: 1em;
+}
+
+.wrong-password {
+  color: #e53935;
+  font-size: 200%;
+  margin-bottom: 1em;
+  /* animation: shake 1s; */
+}
+
+.form-input {
+  background-color: #e6ffff;
+  border-color: #00acc1;
+  border-radius: 7px;
+  font-size: 150%;
+  text-align: center;
+  border: 2px solid #4ba3c7;
+  color: #00acc1;
+  padding: 0.5em;
+}
+
+.table-container {
+  color: yellow;
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.shake {
+  animation: shake 1s;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(15px);
+  }
+
+  50% {
+    transform: translateX(-15px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.login-button {
+  font-family: Mario-Party-Hudson-Font;
+  font-size: 200%;
+  border-radius: 7px;
+}
+
+.button {
+  font-family: Mario-Party-Hudson-Font;
+  padding: 3px;
+  padding-left: 9px;
+  padding-right: 9px;
+  font-size: x-large;
+  border-radius: 12px;
+  margin: 4px;
+}
+
+.primary {
+  color: #4ba3c7;
+  background-color: #b3e5fc;
+  border: 2px solid #4ba3c7;
+}
+
+.success {
+  color: #4f9a94;
+  background-color: #80cbc4;
+  border: 2px solid #4f9a94;
+}
+
+
+
+.round {
+  border-radius: 50%;
+}
+
+.round:hover {
+cursor: pointer;
+}
+
+.primary:hover {
+  cursor: pointer;
+  background-color: #e1f5fe;
+}
+
+.success:hover {
+  cursor: pointer;
+  background-color: #e5ffff;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.result-table {
+  font-size: 150%;
+}
+
+.row-name {
+  padding: 0.5rem;
+  padding-right: 1rem;
+}
+
+.row-points {
+  padding: 0.3rem;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.chart {
+  max-width: 400px;
+}
+
+@media (min-width: 900px) and (orientation:landscape) {
+  .chart {
+    margin: 1rem;
+  }
+}
