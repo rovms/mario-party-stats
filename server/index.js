@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const historyFallback = require("connect-history-api-fallback");
 const morgan = require("morgan");
+const cors = require("cors");
 
 const Player = require("./model/player");
 
@@ -32,9 +33,9 @@ const startServer = function () {
     console.log(`listening on ${port}`);
   });
 
-  if (process.argv && process.argv[0] != null) {
-    setupDB();
-  }
+  // if (process.argv && process.argv[0] != null) {
+  //   setupDB();
+  // }
 };
 
 innitConnection(function () {
