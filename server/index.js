@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
+var history = require("connect-history-api-fallback");
 
 const Player = require("./model/player");
 
@@ -14,6 +16,8 @@ const routes = require("./routes");
 
 app.use(cors());
 app.use(bodyParser.json()); //TODO: remove
+app.use(morgan());
+app.use(history());
 
 const startServer = function () {
   app.use("/api", routes);
