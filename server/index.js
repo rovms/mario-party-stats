@@ -1,7 +1,10 @@
 const express = require("express");
-const cors = require("cors");
-const connectHistory = require("connect-history-api-fallback");
+const bodyParser = require("body-parser");
+const historyFallback = require("connect-history-api-fallback");
 const morgan = require("morgan");
+const cors = require("cors");
+
+const Player = require("./model/player");
 
 require("dotenv").config();
 
@@ -14,25 +17,25 @@ app.use(morgan);
 
 const routes = require("./routes");
 
-app.use(cors());
-app.use(morgan());
-app.use(connectHistory());
-
 const startServer = function () {
   app.use("/api", routes);
 
-  if (process.env.NODE_ENV === "production") {
-    const path = __dirname + "/dist/";
-    app.use(express.static(path));
-    app.get("/.*/", (req, res) => {
-      res.sendFile(path + "index.html");
-    });
-  }
+  const path = __dirname + "/dist/";
+
+  app.use(express.static(path));
+
+  app.get("/.*/", (req, res) => {
+    res.sendFile(path + "index.html");
+  });
 
   const port = process.env.PORT || 4000;
   app.listen(port, () => {
     console.log(`listening on ${port}`);
   });
+
+  // if (process.argv && process.argv[0] != null) {
+  //   setupDB();
+  // }
 };
 
 innitConnection(function () {
