@@ -11,14 +11,22 @@
         <div class="table-container">
           <table class="result-table">
             <tr v-for="player in players" :key="player">
-              <td class="row-name">{{ player.name }}</td>
+              <td class="row-name">
+                <div>{{ player.name }}</div>
+              </td>
               <td class="row-points" style="padding: 0.3rem">
-                <button class="round" type="button" @click="player.newPoints = player.newPoints <= 1 ? 0 : player.newPoints - 1">-</button>
+                <div class="scoreChange" @click="player.newPoints = player.newPoints <= 1 ? 0 : player.newPoints - 1">
+                  <img class="scoreIcon" src="../assets/down.svg" alt="Down" />
+                </div>
               </td>
               <td class="row-points">
                 <div>{{ player.newPoints || 0 }}</div>
               </td>
-              <td class="row-points"><button class="round" type="button" @click="player.newPoints++">+</button></td>
+              <td class="row-points">
+                <div class="scoreChange" @click="player.newPoints < 7 ? player.newPoints++ : null">
+                  <img class="scoreIcon" src="../assets/up.svg" alt="Up" />
+                </div>
+              </td>
             </tr>
           </table>
         </div>
@@ -38,7 +46,6 @@ import router from "../router";
 import authHeader from "../auth";
 
 const API_URL = "/api/";
-
 const CHART_COLORS = [
   "rgba(255, 153, 51, 0.6)",
   "rgba(153, 51, 255, 0.6)",
@@ -59,6 +66,7 @@ export default {
       totalPerYearChart: null,
       allTimeDevelopmentChart: null,
       password: "",
+      canPlayAudio: true,
     };
   },
   methods: {
@@ -85,9 +93,6 @@ export default {
 
       let i;
       for (i = 0; i < this.players.length; i++) {
-        //TODO: line missing?
-        // currentPoints[i] = parseInt(currentPoints[i], 10) + parseInt(this.players[i].newPoints, 10);
-
         const currentSummed = this.allTimeDevelopmentChart.data.datasets[i].data;
         currentSummed.push(parseInt(currentSummed[currentSummed.length - 1], 10) + parseInt(this.players[i].newPoints, 10));
       }
@@ -111,15 +116,17 @@ export default {
             if (error.response.status === 401) {
               router.push({ name: "Login" });
             }
+            console.error(error.response);
+          } else {
+            console.log(error);
           }
-          console.log(error);
         });
     },
 
     createtotalPerYearChart() {
       const ctx = this.$refs.totalPerYearChart;
       const labels = [];
-      
+
       this.players.forEach((p) => {
         labels.push(p.name);
       });
@@ -191,12 +198,12 @@ export default {
       const datasets = [];
       let counter;
       const length = this.players[0].points.length; // assuming that all players have the same amount of scores.
-      
+
       const labels = [];
       for (counter = 1; counter <= length; counter++) {
         labels.push(counter);
       }
-      
+
       this.players.forEach((p) => {
         const summedPoints = [];
         let sum = 0;

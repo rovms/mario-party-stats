@@ -19,9 +19,22 @@ router.post("/player", auth, async (req, res) => {
   try {
     const now = new Date();
     let player;
+
+    const invalidPlayers = req.body.filter((player) => {
+      if (player.newPoints < 0 || player.newPoints > 7) {
+        return player;
+      }
+    });
+    if (invalidPlayers) {
+      const errorBody = [];
+      for (let invalidPlayer of invalidPlayers) {
+        errorBody.push({ name: invalidPlayer.name, newPoints: invalidPlayer.newPoints });
+      }
+      return res.status(400).send({ message: "Invalid points amount.", players: errorBody });
+    }
     for (player of req.body) {
       const p = await Player.findById(player.id);
-      p.scores.push({amount: player.newPoints, date: now});
+      p.scores.push({ amount: player.newPoints, date: now });
       await p.save();
     }
     return res.status(200).json("Ok");

@@ -31,6 +31,7 @@ body,
 
 .login-container {
   height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
   align-content: space-between;
@@ -66,6 +67,12 @@ body,
   border: 2px solid #4ba3c7;
   color: #00acc1;
   padding: 0.5em;
+}
+
+@media (max-width: 320px) and (orientation: portrait) {
+  .form-input {
+    font-size: 100%;
+  }
 }
 
 .table-container {
@@ -125,14 +132,32 @@ body,
   border: 2px solid #4f9a94;
 }
 
-
-
 .round {
   border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  background-color: yellow;
 }
 
 .round:hover {
-cursor: pointer;
+  cursor: pointer;
+}
+
+.scoreChange {
+  display: flex;
+  align-items: center;
+  background-color: #edfcfc;
+  border: 2px solid #b3e5fc;
+  border-radius: 10px;
+}
+
+.scoreIcon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.scoreChange:hover {
+  cursor: pointer;
 }
 
 .primary:hover {
@@ -177,7 +202,7 @@ cursor: pointer;
   max-width: 400px;
 }
 
-@media (min-width: 900px) and (orientation:landscape) {
+@media (min-width: 900px) and (orientation: landscape) {
   .chart {
     margin: 1rem;
   }
