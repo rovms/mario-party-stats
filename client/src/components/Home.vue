@@ -198,7 +198,7 @@ export default {
       const datasets = [];
       const length = this.players[0].points.length; // assuming that all players have the same amount of scores.
 
-      const labels = Array.from({ length: length }, (_, index) => index);
+      const labels = Array.from({ length: length + 1 }, (_, index) => index);
 
       this.players.forEach((p) => {
         const summedPoints = [];
