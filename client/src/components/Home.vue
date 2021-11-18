@@ -196,16 +196,13 @@ export default {
     createallTimeDevelopmentChart() {
       const ctx = this.$refs.allTimeDevelopmentChart;
       const datasets = [];
-      let counter;
       const length = this.players[0].points.length; // assuming that all players have the same amount of scores.
 
-      const labels = [];
-      for (counter = 1; counter <= length; counter++) {
-        labels.push(counter);
-      }
+      const labels = Array.from({ length: length }, (_, index) => index);
 
       this.players.forEach((p) => {
         const summedPoints = [];
+        summedPoints.push(0);
         let sum = 0;
         let score;
         for (score of p.scores) {
