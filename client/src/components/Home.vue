@@ -92,6 +92,10 @@ export default {
         this.selectedPlayer = player;
 
         setTimeout(() => {
+          window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+        }, 100);
+
+        setTimeout(() => {
           this.selectedPlayer = null;
         }, 4000);
       }
