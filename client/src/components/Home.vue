@@ -42,7 +42,7 @@
         <img src="../assets/Joni.gif" alt="Joni" v-if="selectedPlayer.name === 'Joni'" style="width: 230px" />
         <img src="../assets/Michi.gif" alt="Michi" v-if="selectedPlayer.name === 'Michi'" style="width: 230px" />
         <img src="../assets/Tobi.gif" alt="Tobi" v-if="selectedPlayer.name === 'Tobi'" style="width: 230px" />
-        <img src="../assets/Roemu.gif" alt="Roemu" v-if="selectedPlayer.name === 'Roemu'" style="width: 230px" />
+        <img src="../assets/Roemu.gif" alt="Roemu" v-if="selectedPlayer.name === 'Römu'" style="width: 230px" />
       </div>
       <div class="info-container">
         <div class="info-element" v-for="player in players" :key="player" @click="showImageAndText(player)">{{ player.name }}</div>
