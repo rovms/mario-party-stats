@@ -36,6 +36,18 @@
         <canvas class="chart" ref="totalPerYearChart" width="200" height="200"></canvas>
       </div>
     </div>
+    <div style="margin-top: 20px">
+      <div v-if="selectedPlayer != null">
+        <div class="info-text" style="font-size: 150%">{{ selectedPlayer.text }}</div>
+        <img src="../assets/Joni.gif" alt="Joni" v-if="selectedPlayer.name === 'Joni'" style="width: 230px" />
+        <img src="../assets/Michi.gif" alt="Michi" v-if="selectedPlayer.name === 'Michi'" style="width: 230px" />
+        <img src="../assets/Tobi.gif" alt="Tobi" v-if="selectedPlayer.name === 'Tobi'" style="width: 230px" />
+        <img src="../assets/Roemu.gif" alt="Roemu" v-if="selectedPlayer.name === 'Roemu'" style="width: 230px" />
+      </div>
+      <div class="info-container">
+        <div class="info-element" v-for="player in players" :key="player" @click="showImageAndText(player)">{{ player.name }}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,9 +79,24 @@ export default {
       allTimeDevelopmentChart: null,
       password: "",
       canPlayAudio: true,
+      selectedPlayer: null,
     };
   },
   methods: {
+    playerImage() {
+      return "../assets/" + this.selectedPlayer.name + ".gif";
+    },
+
+    showImageAndText(player) {
+      if (this.selectedPlayer == null) {
+        this.selectedPlayer = player;
+
+        setTimeout(() => {
+          this.selectedPlayer = null;
+        }, 4000);
+      }
+    },
+
     closeNewPointsForm() {
       this.players.map((player) => (player.newPoints = 0));
       this.showNewResultForm = false;
