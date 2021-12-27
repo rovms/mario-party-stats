@@ -198,6 +198,23 @@ body,
   margin-top: 1rem;
 }
 
+.info-container {
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+}
+
+.info-element {
+  margin: 1rem;
+  font-size: 150%;
+  color: yellow;
+}
+
+.info-text {
+  font-size: 180%;
+  color: #2124c8;
+}
+
 .chart {
   max-width: 400px;
 }
