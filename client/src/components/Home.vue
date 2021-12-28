@@ -45,7 +45,9 @@
         <img src="../assets/Roemu.gif" alt="Roemu" v-if="selectedPlayer.name === 'Römu'" style="width: 230px" />
       </div>
       <div class="info-container">
-        <div class="info-element" v-for="player in players" :key="player" @click="showImageAndText(player)">{{ player.name }}</div>
+        <div class="info-element" :style="'color: ' + player.color" v-for="player in allOrActivePlayers()" :key="player" @click="showImageAndText(player)">
+          {{ player.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -83,6 +85,14 @@ export default {
     };
   },
   methods: {
+    allOrActivePlayers() {
+      if (this.selectedPlayer != null) {
+        return [JSON.parse(JSON.stringify(this.players.find((p) => p.name === this.selectedPlayer.name)))];
+      } else {
+        return this.players;
+      }
+    },
+
     playerImage() {
       return "../assets/" + this.selectedPlayer.name + ".gif";
     },
@@ -93,11 +103,11 @@ export default {
 
         setTimeout(() => {
           window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
-        }, 100);
+        }, 400);
 
         setTimeout(() => {
           this.selectedPlayer = null;
-        }, 4000);
+        }, 5000);
       }
     },
 
