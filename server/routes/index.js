@@ -5,7 +5,6 @@ const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
 const initConnection = require("../db");
 
-// Retrieve all players
 router.get("/player", auth, async (req, res) => {
   try {
     const players = await Player.find();
@@ -16,20 +15,23 @@ router.get("/player", auth, async (req, res) => {
 });
 
 router.post("/player", auth, async (req, res) => {
+  console.log(req.body);
   try {
     const now = new Date();
     let player;
 
-    const invalidPlayers = req.body.filter((player) => {
+    const invalidPlayers = [];
+    for (player of req.body) {
       if (player.newPoints < 0 || player.newPoints > 7) {
-        return player;
+        invalidPlayers.push(player);
       }
-    });
-    if (invalidPlayers) {
+    }
+    if (invalidPlayers && invalidPlayers.length > 0) {
       const errorBody = [];
       for (let invalidPlayer of invalidPlayers) {
         errorBody.push({ name: invalidPlayer.name, newPoints: invalidPlayer.newPoints });
       }
+      console.error(req.body);
       return res.status(400).send({ message: "Invalid points amount.", players: errorBody });
     }
     for (player of req.body) {
@@ -48,14 +50,9 @@ router.post("/login", async (req, res) => {
   if (req.body.password !== process.env.SECRET) {
     return res.status(401).send("Wrong password.");
   }
-  const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-  if (!ip) {
-    return res.status(401).send("IP could not be read.");
-  }
-  const token = jwt.sign({ ip }, process.env.JWT_SECRET, {
-    expiresIn: "6 hours",
+  const token = jwt.sign({ payload: "No data" }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRE,
   });
-  console.log(token);
   return res.status(200).json({ token });
 });
 
