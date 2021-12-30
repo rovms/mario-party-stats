@@ -237,7 +237,7 @@ export default {
     createallTimeDevelopmentChart() {
       const ctx = this.$refs.allTimeDevelopmentChart;
       const datasets = [];
-      const length = this.players[0].points.length; // assuming that all players have the same amount of scores.
+      const length = this.players[0].scores.length; // assuming that all players have the same amount of scores.
 
       const labels = Array.from({ length: length + 1 }, (_, index) => index);
 
