@@ -50,9 +50,7 @@ router.post("/login", async (req, res) => {
   if (req.body.password !== process.env.SECRET) {
     return res.status(401).send("Wrong password.");
   }
-  const token = jwt.sign({ payload: "No data" }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE,
-  });
+  const token = jwt.sign({ payload: "No data" }, process.env.JWT_SECRET);
   return res.status(200).json({ token });
 });
 
