@@ -3,6 +3,11 @@
     <button class="button primary" @abort="$emit('onAbort')" type="button">Abbrechen</button>
     <!-- <button class="button success" @click="onSubmit">Speichern</button> -->
     <button class="button success" @click="$emit('addPoints')">Speichern</button>
+    <label for="game">Spiel</label>
+    <select name="game" id="game">
+      <option value="2">Mario Party 2</option>
+      <option value="3">Mario Party 3</option>
+    </select>
     <div class="outer-container">
       <table class="result-table">
         <tr v-for="player in players" :key="player">

@@ -10,6 +10,9 @@ const Score = {
   date: {
     type: Date,
   },
+  game: {
+    type: String
+  }
 };
 
 const opts = {
