@@ -219,6 +219,11 @@ body,
   max-width: 400px;
 }
 
+.select-label {
+  margin-right: 0.4em;
+  margin-left: 2em;
+}
+
 @media (min-width: 900px) and (orientation: landscape) {
   .chart {
     margin: 1rem;

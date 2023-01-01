@@ -14,6 +14,12 @@
 			<form v-if="showNewResultForm">
 				<button class="button primary" @click="closeNewPointsForm()" type="button">Abbrechen</button>
 				<button class="button success" @click="submitPoints()" type="button">Speichern</button>
+				<label class="select-label" for="game">Spiel</label>
+				<select name="game" id="game" v-model="game">
+					<option disabled value="">Spiel wählen</option>
+					<option value="2">Mario Party 2</option>
+					<option value="3">Mario Party 3</option>
+				</select>
 				<div class="table-container">
 					<table class="result-table">
 						<tr v-for="player in players" :key="player">
@@ -94,6 +100,7 @@ export default {
 			password: "",
 			canPlayAudio: true,
 			selectedPlayer: null,
+			game: "",
 		};
 	},
 	methods: {
@@ -129,6 +136,33 @@ export default {
 		},
 
 		submitPoints() {
+			if (!this.game) {
+				alert("Spiel auswählen");
+				return;
+			}
+			axios
+				.post(API_URL + "score", { players: this.players, date: new Date(), game: this.game }, authHeader())
+				.then(() => {
+					this.players.forEach((p) => {
+						p.newPoints = 0;
+					});
+
+					this.updateScores();
+				})
+				.catch((error) => {
+					if (error && error.response) {
+						if (error.response.status === 401) {
+							router.push({ name: "Login" });
+						}
+						console.error(error.response);
+						alert(JSON.stringify(error.response.data));
+					} else {
+						console.log(error);
+					}
+				});
+		},
+
+		updateScores() {
 			const thisYear = new Date().getFullYear();
 			const totalPerYearDatasets = this.totalPerYearChart.data.datasets;
 			const _pointsThisYear = totalPerYearDatasets.find((ds) => ds.label == thisYear);
@@ -155,24 +189,6 @@ export default {
 			this.totalPerYearChart.update();
 			this.allTimeDevelopmentChart.update();
 			this.showNewResultForm = !this.showNewResultForm;
-
-			axios
-				.post(API_URL + "score", { players: this.players, date: new Date() }, authHeader())
-				.then(() => {
-					this.players.forEach((p) => {
-						p.newPoints = 0;
-					});
-				})
-				.catch((error) => {
-					if (error && error.response) {
-						if (error.response.status === 401) {
-							router.push({ name: "Login" });
-						}
-						console.error(error.response);
-					} else {
-						console.log(error);
-					}
-				});
 		},
 
 		createtotalPerYearChart() {

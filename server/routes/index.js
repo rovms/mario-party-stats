@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken");
 router.post("/score", auth, async (req, res) => {
   try {
     const payload = req.body;
+    if (!payload.game) {
+      return res.status(400).send({ message: "Missing game (required)." });
+    }
     const invalidPlayers = [];
     let player;
     for (player of payload.players) {
@@ -24,7 +27,7 @@ router.post("/score", auth, async (req, res) => {
     const date = payload.date || new Date();
     for (player of payload.players) {
       const p = await Player.findById(player.id);
-      p.scores.push({ amount: player.newPoints, date: date });
+      p.scores.push({ amount: player.newPoints, date: date, game: payload.game });
       await p.save();
     }
     return res.status(200).json("Ok");
