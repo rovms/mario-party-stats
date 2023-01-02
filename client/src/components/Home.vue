@@ -14,12 +14,13 @@
 			<form v-if="showNewResultForm">
 				<button class="button primary" @click="closeNewPointsForm()" type="button">Abbrechen</button>
 				<button class="button success" @click="submitPoints()" type="button">Speichern</button>
-				<label class="select-label" for="game">Spiel</label>
-				<select name="game" id="game" v-model="game">
-					<option disabled value="">Spiel wählen</option>
-					<option value="2">Mario Party 2</option>
-					<option value="3">Mario Party 3</option>
-				</select>
+				<div style="margin-top: 1em; margin-bottom: 1em;">
+					<select class="game-select" name="game" id="game" v-model="game">
+						<option disabled value="">Spiel wählen</option>
+						<option value="2">Mario Party 2</option>
+						<option value="3">Mario Party 3</option>
+					</select>
+				</div>
 				<div class="table-container">
 					<table class="result-table">
 						<tr v-for="player in players" :key="player">
@@ -143,11 +144,11 @@ export default {
 			axios
 				.post(API_URL + "score", { players: this.players, date: new Date(), game: this.game }, authHeader())
 				.then(() => {
+					this.updateScores();
+					
 					this.players.forEach((p) => {
 						p.newPoints = 0;
 					});
-
-					this.updateScores();
 				})
 				.catch((error) => {
 					if (error && error.response) {

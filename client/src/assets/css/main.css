@@ -25,6 +25,7 @@ body,
   justify-content: center;
   background-color: #e6ffff;
 }
+
 .container {
   margin-top: 2rem;
 }
@@ -222,6 +223,17 @@ body,
 .select-label {
   margin-right: 0.4em;
   margin-left: 2em;
+}
+
+.game-select {
+  background-color: #edfcfc;
+  border: 2px solid #b3e5fc;
+  border-radius: 7px;
+  font-size: 100%;
+  text-align: center;
+  border: 2px solid #4ba3c7;
+  color: #00acc1;
+  padding: 0.5em;
 }
 
 @media (min-width: 900px) and (orientation: landscape) {
